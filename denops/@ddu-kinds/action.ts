@@ -1,6 +1,6 @@
 import {
-  Actions,
   ActionFlags,
+  Actions,
   BaseKind,
   DduItem,
 } from "https://deno.land/x/ddu_vim@v2.0.0/types.ts";
@@ -18,13 +18,12 @@ export class Kind extends BaseKind<Params> {
   override actions: Actions<Params> = {
     do: async (args: {
       denops: Denops;
-      items: DduItem[],
-      actionParams: unknown
+      items: DduItem[];
+      actionParams: unknown;
     }) => {
       const name = (args.items[0].action as ActionData).name;
 
-      await args.denops.call("ddu#pop", name);
-      await args.denops.call("ddu#event", name, "close");
+      await args.denops.dispatch("ddu", "pop", name);
 
       for (const item of args.items) {
         const action = item?.action as ActionData;
